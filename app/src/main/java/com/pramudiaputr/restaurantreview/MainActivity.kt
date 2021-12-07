@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.pramudiaputr.restaurantreview.databinding.ActivityMainBinding
 import com.pramudiaputr.restaurantreview.network.model.CustomerReview
 import com.pramudiaputr.restaurantreview.network.model.Restaurant
@@ -32,8 +33,15 @@ class MainActivity : AppCompatActivity() {
         viewModel.listReview.observe(this, { listReview ->
             setReviewData(listReview)
         })
+
         viewModel.isLoading.observe(this, { isLoading ->
             showLoading(isLoading)
+        })
+
+        viewModel.snackBarText.observe(this, { text ->
+            text.getContentIfNotHandled()?.let { snackBarText ->
+                showSnackBar(snackBarText)
+            }
         })
 
         val layoutManager = LinearLayoutManager(this)
@@ -76,5 +84,11 @@ class MainActivity : AppCompatActivity() {
     private fun showLoading(isLoading: Boolean) {
         if (isLoading) binding.progressBar.visibility = View.VISIBLE
         else binding.progressBar.visibility = View.INVISIBLE
+    }
+
+    private fun showSnackBar(text: String) {
+        Snackbar.make(
+            window.decorView.rootView, text, Snackbar.LENGTH_SHORT
+        ).show()
     }
 }
