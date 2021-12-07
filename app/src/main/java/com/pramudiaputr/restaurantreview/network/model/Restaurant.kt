@@ -1,4 +1,4 @@
-package com.pramudiaputr.restaurantreview.network.response
+package com.pramudiaputr.restaurantreview.network.model
 import com.google.gson.annotations.SerializedName
 
 data class Restaurant(
